@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module Text.HTML.TagSoup.Parsec 
    ( module Text.HTML.TagSoup
    , TagParser
