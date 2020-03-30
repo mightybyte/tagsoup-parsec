@@ -7,6 +7,8 @@ module Text.HTML.TagSoup.Parsec
    , WholeTag 
    , tParse
    , tStParse
+   , tagEater
+   , textTag
    , openTag 
    , maybeOpenTag
    , eitherOpenTag
@@ -70,6 +72,18 @@ lowercase :: StringLike s => s -> s
 lowercase =
    fromString . map toLower . toString
 
+-- | textTag matches a TagText with the given text.
+textTag :: (StringLike str, Show str) => str -> TagParserSt str st (Tag str)
+textTag soughtText =
+   tagEater $ \ tag ->
+                 case tag of
+                    t@( TagText tagText ) ->
+                       if tagText == soughtText
+                          then
+                             Just t
+                          else
+                             Nothing
+                    t -> Nothing
 
 -- | openTag matches a TagOpen with the given name.  It is not case sensitive.
 openTag :: (StringLike str, Show str) => str -> TagParserSt str st (Tag str)
